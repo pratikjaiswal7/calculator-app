@@ -1,0 +1,127 @@
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+
+const Calculator = () => {
+  const [input, setInput] = useState('');
+  const [result, setResult] = useState('');
+
+  const handlePress = (value) => {
+    setInput(input + value);
+  };
+
+  const handleClear = () => {
+    setInput('');
+    setResult('');
+  };
+
+  const handleEvaluate = () => {
+    try {
+      setResult(eval(input).toString());
+    } catch (error) {
+      setResult('Error');
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.resultContainer}>
+        <Text style={styles.resultText}>{result || input || '0'}</Text>
+      </View>
+      <View style={styles.buttonContainer}>
+        {['7', '8', '9', '/'].map((button, index) => (
+          <TouchableOpacity
+            key={index}
+            style={styles.button}
+            onPress={() => handlePress(button)}>
+            <Text style={styles.buttonText}>{button}</Text>
+          </TouchableOpacity>
+        ))}
+        {['4', '5', '6', '*'].map((button, index) => (
+          <TouchableOpacity
+            key={index}
+            style={styles.button}
+            onPress={() => handlePress(button)}>
+            <Text style={styles.buttonText}>{button}</Text>
+          </TouchableOpacity>
+        ))}
+        {['1', '2', '3', '-'].map((button, index) => (
+          <TouchableOpacity
+            key={index}
+            style={styles.button}
+            onPress={() => handlePress(button)}>
+            <Text style={styles.buttonText}>{button}</Text>
+          </TouchableOpacity>
+        ))}
+        {['0', '.', '=', '+'].map((button, index) => (
+          <TouchableOpacity
+            key={index}
+            style={styles.button}
+            onPress={() => {
+              if (button === '=') handleEvaluate();
+              else handlePress(button);
+            }}>
+            <Text style={styles.buttonText}>{button}</Text>
+          </TouchableOpacity>
+        ))}
+        <TouchableOpacity style={styles.buttonClear} onPress={handleClear}>
+          <Text style={styles.buttonText}>Clear</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonClear} onPress={handleClear}>
+          <Text style={styles.buttonText}>Calc by Pratik</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#2e2e2e',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  resultContainer: {
+    width: '80%',
+    backgroundColor: '#f1f1f1',
+    padding: 20,
+    borderRadius: 10,
+    marginBottom: 20,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+  },
+  resultText: {
+    fontSize: 40,
+    color: 'black',
+  },
+  buttonContainer: {
+    width: '80%',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  button: {
+    width: '22%',
+    height: 60,
+    margin: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#4CAF50',
+    borderRadius: 10,
+  },
+  buttonClear: {
+    width: '100%',
+    height: 60,
+    marginTop: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#ff4c4c',
+    borderRadius: 10,
+  },
+  buttonText: {
+    fontSize: 30,
+    color: '#000',
+  },
+});
+
+export default Calculator;
